@@ -1,0 +1,58 @@
+﻿<Window x:Class="AppLauncherWPFApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:cv="clr-namespace:Avalon.Demo"
+        Title="MainWindow" Height="350" Width="525" Background="#FFEEEEEE" WindowStyle="None">
+    
+    <Window.Resources>
+        <DataTemplate x:Key="tiles">
+            <StackPanel>
+                <Grid Height="50"
+                              Width="50"
+                              Background="#3cc77e">
+                </Grid>
+                <TextBlock Text="{Binding Title}"
+                           HorizontalAlignment="Center"/>
+            </StackPanel>
+        </DataTemplate>
+        
+    </Window.Resources>
+    
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal" Background="White">
+            <TextBlock Text="LaunchR"
+                       FontSize="20"
+                       Foreground="Gray"
+                       VerticalAlignment="center"
+                       Margin="20,0,20,0"
+                   />
+            <Button BorderThickness="0"
+                    Background="White"
+                    Width="30"
+                    Click="AddButtonClick"
+                    >
+                <Button.Content>
+                    <TextBlock Text="+"
+                               FontSize="26"
+                               Foreground="Gray"/>
+                </Button.Content>
+            </Button>
+
+        </StackPanel>
+        <Grid Grid.Row="1"
+              Background="#444">
+            <ListView x:Name="AppListView"
+                      PreviewMouseLeftButtonUp="AppListView_OnPreviewMouseLeftButtonUp" Background="#FFE8E8E8">
+                <ListView.View>
+                    <cv:ImageView />
+                </ListView.View>
+            </ListView>
+        </Grid>
+    </Grid>
+</Window>

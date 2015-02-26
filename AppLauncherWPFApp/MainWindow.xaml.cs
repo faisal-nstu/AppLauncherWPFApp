@@ -1,0 +1,193 @@
+﻿using System.Windows.Forms;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
+
+namespace AppLauncherWPFApp
+{
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+        private int _tickCount;
+        private bool _addClicked;
+        public ObservableCollection<AppItem> AppItems { get; set; }
+        public MainWindow()
+        {
+            InitializeComponent();
+            SetWindow();
+            SetListViewItemsSource();
+        }
+
+        private void SetWindow()
+        {
+            _addClicked = false;
+            this.Deactivated += OnWindowDeactivated;
+            // get mouse position
+            double workingAreaHeight = Screen.PrimaryScreen.WorkingArea.Height;
+            var xPos = GetMousePositionWindowsForms().X;
+            // set window size
+            this.Width = 275;
+            this.Height = 300;
+            // set window position
+            this.Left = xPos - (this.Width/2);
+            this.Top = workingAreaHeight - this.Height;
+        }
+
+        public Point GetMousePositionWindowsForms()
+        {
+            System.Drawing.Point point = System.Windows.Forms.Control.MousePosition;
+            return new Point(point.X, point.Y);
+        }
+
+        private void OnWindowDeactivated(object sender, EventArgs eventArgs)
+        {
+            if (_addClicked == false)
+            {
+                Timer timer = new Timer();
+                timer.Interval = 1000;
+                timer.Tick += TimerOnTick;
+                timer.Start();
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        private void TimerOnTick(object sender, EventArgs eventArgs)
+        {
+            _tickCount++;
+            if (_tickCount == 2)
+            {
+                this.Close();
+            }
+        }
+
+        private void SetListViewItemsSource()
+        {
+            LoadApps();
+            AppListView.ItemsSource = AppItems;
+        }
+
+        public void LoadApps()
+        {
+            AppItems = new ObservableCollection<AppItem>();
+            var appList = GetAppList();
+            foreach (var app in appList)
+            {
+                var appItem = new AppItem();
+                appItem.AppName = app.AppName;
+                appItem.AppLocation = app.AppLocation;
+                AppItems.Add(appItem);
+            }
+        }
+
+        
+
+        private void AppListView_OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            AppItem clickedApp = new AppItem();
+            var clickSource = e.OriginalSource;
+
+            if (clickSource is Grid || clickSource is Border || clickSource is TextBlock || clickSource is Image)
+            {
+                var frameworkElement = e.OriginalSource as FrameworkElement;
+                if (frameworkElement != null && frameworkElement.DataContext is AppItem)
+                {
+                    clickedApp = (e.OriginalSource as FrameworkElement).DataContext as AppItem;
+                }
+                if (clickedApp != null && clickedApp.AppLocation != "")
+                    System.Diagnostics.Process.Start(clickedApp.AppLocation);
+            }
+            
+            
+        }
+
+        private void AddButtonClick(object sender, RoutedEventArgs e)
+        {
+            _addClicked = true;
+            OpenFileDialog fileBrowser = new OpenFileDialog();
+            fileBrowser.ShowDialog();
+            var selectedApp = fileBrowser.FileName;
+            AddApp(selectedApp);
+            _addClicked = false;
+        }
+
+        private void AddApp(string selectedApp)
+        {
+            AppDetails newApp = new AppDetails();
+            newApp.AppLocation = selectedApp;
+            newApp.AppName = System.IO.Path.GetFileNameWithoutExtension(selectedApp);
+
+            List<AppDetails> AppList = GetAppList();
+            var isAppExists = AppList.Exists(m => m.AppLocation == newApp.AppLocation);
+            if (isAppExists == false)
+            {
+                AppList.Add(newApp);
+            }
+            else
+            {
+                return;
+            }
+            WriteToFile(AppList);
+            SetListViewItemsSource();
+        }
+
+        private static void WriteToFile(List<AppDetails> AppList)
+        {
+            System.Xml.Serialization.XmlSerializer writer =
+                new System.Xml.Serialization.XmlSerializer(typeof(List<AppDetails>));
+            string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            System.IO.StreamWriter file = new System.IO.StreamWriter(appDataPath + "\\AppLauncher.xml");
+            writer.Serialize(file, AppList);
+            file.Close();
+        }
+
+        private List<AppDetails> GetAppList() 
+        {
+            System.Xml.Serialization.XmlSerializer reader = new System.Xml.Serialization.XmlSerializer(typeof(List<AppDetails>));
+            string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            if (!File.Exists(appDataPath + "\\AppLauncher.xml"))
+            {
+                string windowsFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
+                InitApp(windowsFolderPath + "\\notepad.exe");
+
+            }
+
+            System.IO.StreamReader file2 = new System.IO.StreamReader(appDataPath + "\\AppLauncher.xml");
+            List<AppDetails> appList = new List<AppDetails>();
+            appList = (List<AppDetails>)reader.Deserialize(file2);
+            file2.Close();
+            return appList;
+        }
+
+        private void InitApp(string path)
+        {
+            List<AppDetails> initAppList = new List<AppDetails>() 
+            {
+                new AppDetails()
+                {
+                    AppLocation = path,
+                    AppName = System.IO.Path.GetFileNameWithoutExtension(path)
+                }
+            };
+            WriteToFile(initAppList);
+        }
+    }
+}

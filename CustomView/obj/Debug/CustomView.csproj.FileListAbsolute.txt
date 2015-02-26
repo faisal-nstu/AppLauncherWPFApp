@@ -1,0 +1,10 @@
+C:\Users\Faisal Amin\Downloads\CustomView\CustomView\bin\Debug\CustomView.dll
+C:\Users\Faisal Amin\Downloads\CustomView\CustomView\bin\Debug\CustomView.pdb
+C:\Users\Faisal Amin\Downloads\CustomView\CustomView\obj\Debug\CustomView.csprojResolveAssemblyReference.cache
+C:\Users\Faisal Amin\Downloads\CustomView\CustomView\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\Faisal Amin\Downloads\CustomView\CustomView\obj\Debug\CustomView_MarkupCompile.cache
+C:\Users\Faisal Amin\Downloads\CustomView\CustomView\obj\Debug\CustomView_MarkupCompile.lref
+C:\Users\Faisal Amin\Downloads\CustomView\CustomView\obj\Debug\Themes\Generic.baml
+C:\Users\Faisal Amin\Downloads\CustomView\CustomView\obj\Debug\CustomView.g.resources
+C:\Users\Faisal Amin\Downloads\CustomView\CustomView\obj\Debug\CustomView.dll
+C:\Users\Faisal Amin\Downloads\CustomView\CustomView\obj\Debug\CustomView.pdb
