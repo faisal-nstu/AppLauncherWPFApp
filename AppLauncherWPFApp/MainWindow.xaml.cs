@@ -42,8 +42,11 @@ namespace AppLauncherWPFApp
             double workingAreaHeight = Screen.PrimaryScreen.WorkingArea.Height;
             var xPos = GetMousePositionWindowsForms().X;
             // set window size
-            this.Width = 275;
-            this.Height = 300;
+            var noOfApps = GetAppList().Count;
+            var noOfAppsPerRow = Math.Ceiling(Math.Sqrt(noOfApps));
+            var noOfAppsPerColumn = (noOfAppsPerRow * noOfAppsPerRow) - noOfApps < noOfAppsPerRow ? noOfAppsPerRow : (noOfAppsPerRow - 1);
+            this.Width = 76 * noOfAppsPerRow;
+            this.Height = 100 * noOfAppsPerColumn + 40;
             // set window position
             this.Left = xPos - (this.Width/2);
             this.Top = workingAreaHeight - this.Height;
@@ -60,7 +63,7 @@ namespace AppLauncherWPFApp
             if (_addClicked == false)
             {
                 Timer timer = new Timer();
-                timer.Interval = 1000;
+                timer.Interval = 500;
                 timer.Tick += TimerOnTick;
                 timer.Start();
             }
@@ -73,7 +76,7 @@ namespace AppLauncherWPFApp
         private void TimerOnTick(object sender, EventArgs eventArgs)
         {
             _tickCount++;
-            if (_tickCount == 2)
+            if (_tickCount == 3)
             {
                 this.Close();
             }
