@@ -30,8 +30,9 @@
                        FontSize="20"
                        Foreground="Gray"
                        VerticalAlignment="center"
-                       Margin="20,0,20,0"
-                   />
+                       Margin="20,0,20,0" 
+                       FontFamily="Courier New"
+                   /> 
             <Button BorderThickness="0"
                     Background="White"
                     Width="30"
@@ -48,7 +49,8 @@
         <Grid Grid.Row="1"
               Background="#444">
             <ListView x:Name="AppListView"
-                      PreviewMouseLeftButtonUp="AppListView_OnPreviewMouseLeftButtonUp" Background="#FFE8E8E8">
+                      PreviewMouseLeftButtonUp="AppListView_OnPreviewMouseLeftButtonUp"
+                      Background="#FFE8E8E8">
                 <ListView.View>
                     <cv:ImageView />
                 </ListView.View>

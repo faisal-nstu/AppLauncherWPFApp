@@ -36,7 +36,7 @@
                     Height="32"/>
              <TextBlock Text="{Binding AppName, Mode=TwoWay}"
                         Foreground="#232323"
-                        FontFamily="Monospace"
+                        FontFamily="Courier New"
                         HorizontalAlignment="Center" 
                         VerticalAlignment="Bottom"
                         Width="50"

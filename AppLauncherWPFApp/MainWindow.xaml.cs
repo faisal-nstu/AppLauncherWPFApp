@@ -45,8 +45,8 @@ namespace AppLauncherWPFApp
             var noOfApps = GetAppList().Count;
             var noOfAppsPerRow = Math.Ceiling(Math.Sqrt(noOfApps));
             var noOfAppsPerColumn = (noOfAppsPerRow * noOfAppsPerRow) - noOfApps < noOfAppsPerRow ? noOfAppsPerRow : (noOfAppsPerRow - 1);
-            this.Width = 76 * noOfAppsPerRow;
-            this.Height = 100 * noOfAppsPerColumn + 40;
+            this.Width = (76 * noOfAppsPerRow) < 200 ? 200 : (76 * noOfAppsPerRow);
+            this.Height = (100 * noOfAppsPerColumn + 40) < 200 ? 200 : (100 * noOfAppsPerColumn + 40);
             // set window position
             this.Left = xPos - (this.Width/2);
             this.Top = workingAreaHeight - this.Height;
