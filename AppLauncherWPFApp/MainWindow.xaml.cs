@@ -192,5 +192,18 @@ namespace AppLauncherWPFApp
             };
             WriteToFile(initAppList);
         }
+
+        private void RemoveMeniuItemClicked(object sender, RoutedEventArgs e)
+        {
+            AppItem clickedApp = new AppItem();
+            if (AppListView.SelectedItem)
+            {
+                clickedApp = AppListView.SelectedItem;
+            }
+            var appList = GetAppList();
+            appList.Remove(clickedApp);
+        }
+
+        
     }
 }

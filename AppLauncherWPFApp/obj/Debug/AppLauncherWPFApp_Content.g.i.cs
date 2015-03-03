@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("launchr_icon.ico")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("app_launcher_icon_v2.ico")]
 
 

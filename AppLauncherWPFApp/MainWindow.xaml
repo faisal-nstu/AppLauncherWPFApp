@@ -54,6 +54,13 @@
                 <ListView.View>
                     <cv:ImageView />
                 </ListView.View>
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Remove"
+                                  Click="RemoveMeniuItemClicked"
+                                  />
+                    </ContextMenu>
+                </ListView.ContextMenu>
             </ListView>
         </Grid>
     </Grid>
