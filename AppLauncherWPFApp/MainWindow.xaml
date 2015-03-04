@@ -57,7 +57,7 @@
                 <ListView.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Remove"
-                                  Click="RemoveMeniuItemClicked"
+                                  Click="RemoveMenuItemClicked"
                                   />
                     </ContextMenu>
                 </ListView.ContextMenu>

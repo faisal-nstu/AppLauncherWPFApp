@@ -195,19 +195,15 @@ namespace AppLauncherWPFApp
 
         private void RemoveMenuItemClicked(object sender, RoutedEventArgs e)
         {
-            _addClicked = true;
             AppDetails clickedApp = new AppDetails();
             if (AppListView.SelectedItem != null )
             {
-                clickedApp.AppName = (AppListView.SelectedItem as AppItem).AppName;
-                clickedApp.AppLocation = (AppListView.SelectedItem as AppItem).AppLocation;
+                clickedApp = AppListView.SelectedItem as AppDetails;
             }
             var appList = GetAppList();
-            var appToBeRemoved = appList.Find(a => a.AppLocation == clickedApp.AppLocation);
-            appList.Remove(appToBeRemoved);
-            WriteToFile(appList);
-            SetListViewItemsSource();
-            _addClicked = false;
+            appList.Remove(clickedApp);
         }
+
+        
     }
 }
