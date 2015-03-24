@@ -25,7 +25,7 @@ namespace AppLauncherWPFApp
     public partial class MainWindow : Window
     {
         private int _tickCount;
-        private bool _addClicked;
+        private bool _freezeWindow;
         public ObservableCollection<AppItem> AppItems { get; set; }
         public MainWindow()
         {
@@ -36,10 +36,11 @@ namespace AppLauncherWPFApp
 
         private void SetWindow()
         {
-            _addClicked = false;
+            _freezeWindow = false;
             this.Deactivated += OnWindowDeactivated;
             // get mouse position
             double workingAreaHeight = Screen.PrimaryScreen.WorkingArea.Height;
+            double workingAreaWidth = Screen.PrimaryScreen.WorkingArea.Width;
             var xPos = GetMousePositionWindowsForms().X;
             // set window size
             var noOfApps = GetAppList().Count;
@@ -48,7 +49,18 @@ namespace AppLauncherWPFApp
             this.Width = (76 * noOfAppsPerRow) < 200 ? 200 : (76 * noOfAppsPerRow);
             this.Height = (100 * noOfAppsPerColumn + 40) < 200 ? 200 : (100 * noOfAppsPerColumn + 40);
             // set window position
-            this.Left = xPos - (this.Width/2);
+            if (xPos < (this.Width))
+            {
+                this.Left = 0;
+            }
+            else if ((xPos + this.Width) > workingAreaWidth)
+            {
+                this.Left = workingAreaWidth - this.Width;
+            }
+            else
+            {
+                this.Left = xPos - (this.Width / 2);
+            }
             this.Top = workingAreaHeight - this.Height;
         }
 
@@ -60,7 +72,7 @@ namespace AppLauncherWPFApp
 
         private void OnWindowDeactivated(object sender, EventArgs eventArgs)
         {
-            if (_addClicked == false)
+            if (_freezeWindow == false)
             {
                 Timer timer = new Timer();
                 timer.Interval = 500;
@@ -124,12 +136,12 @@ namespace AppLauncherWPFApp
 
         private void AddButtonClick(object sender, RoutedEventArgs e)
         {
-            _addClicked = true;
+            _freezeWindow = true;
             OpenFileDialog fileBrowser = new OpenFileDialog();
             fileBrowser.ShowDialog();
             var selectedApp = fileBrowser.FileName;
             AddApp(selectedApp);
-            _addClicked = false;
+            _freezeWindow = false;
         }
 
         private void AddApp(string selectedApp)
@@ -195,7 +207,7 @@ namespace AppLauncherWPFApp
 
         private void RemoveMenuItemClicked(object sender, RoutedEventArgs e)
         {
-            _addClicked = true;
+            _freezeWindow = true;
             AppDetails clickedApp = new AppDetails();
             if (AppListView.SelectedItem != null )
             {
@@ -207,7 +219,23 @@ namespace AppLauncherWPFApp
             appList.Remove(appToBeRemoved);
             WriteToFile(appList);
             SetListViewItemsSource();
-            _addClicked = false;
+            _freezeWindow = false;
+        }
+
+        private void RenameMenuItemClicked(object sender, RoutedEventArgs e)
+        {
+            _freezeWindow = true;
+            AppDetails clickedApp = new AppDetails();
+            if (AppListView.SelectedItem != null)
+            {
+                clickedApp.AppName = (AppListView.SelectedItem as AppItem).AppName;
+                clickedApp.AppLocation = (AppListView.SelectedItem as AppItem).AppLocation;
+            }
+            var appList = GetAppList();
+            var appToBeRenamed = appList.Find(a => a.AppLocation == clickedApp.AppLocation);
+            var clickPos = GetMousePositionWindowsForms();
+            
+            _freezeWindow = false;
         }
     }
 }

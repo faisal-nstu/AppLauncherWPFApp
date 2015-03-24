@@ -34,9 +34,11 @@
              <Image Source="{Binding ImageSource, Mode=TwoWay}"
                     Width="32"
                     Height="32"/>
-             <TextBlock Text="{Binding AppName, Mode=TwoWay}"
+             <TextBlock x:Name="AppNameTextBox" 
+                        Text="{Binding AppName, Mode=TwoWay}"
                         Foreground="#232323"
                         FontFamily="Courier New"
+                        Background="#00000000"
                         HorizontalAlignment="Center" 
                         VerticalAlignment="Bottom"
                         Width="50"

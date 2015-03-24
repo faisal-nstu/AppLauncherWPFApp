@@ -59,6 +59,9 @@
                         <MenuItem Header="Remove"
                                   Click="RemoveMenuItemClicked"
                                   />
+                        <MenuItem Header="Rename"
+                                  Click="RenameMenuItemClicked"
+                                  />
                     </ContextMenu>
                 </ListView.ContextMenu>
             </ListView>
