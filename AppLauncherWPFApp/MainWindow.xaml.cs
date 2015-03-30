@@ -140,7 +140,10 @@ namespace AppLauncherWPFApp
             OpenFileDialog fileBrowser = new OpenFileDialog();
             fileBrowser.ShowDialog();
             var selectedApp = fileBrowser.FileName;
-            AddApp(selectedApp);
+            if (!string.IsNullOrEmpty(selectedApp))
+            {
+                AddApp(selectedApp);
+            }
             _freezeWindow = false;
         }
 
