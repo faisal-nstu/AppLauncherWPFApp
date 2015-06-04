@@ -237,7 +237,7 @@ namespace AppLauncherWPFApp
             var appList = GetAppList();
             var appToBeRenamed = appList.Find(a => a.AppLocation == clickedApp.AppLocation);
             var clickPos = GetMousePositionWindowsForms();
-            
+
             _freezeWindow = false;
         }
     }

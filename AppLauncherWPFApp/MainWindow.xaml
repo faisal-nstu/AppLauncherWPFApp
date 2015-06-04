@@ -52,7 +52,7 @@
                       PreviewMouseLeftButtonUp="AppListView_OnPreviewMouseLeftButtonUp"
                       Background="#FFE8E8E8">
                 <ListView.View>
-                    <cv:ImageView />
+                    <cv:ImageView/>
                 </ListView.View>
                 <ListView.ContextMenu>
                     <ContextMenu>

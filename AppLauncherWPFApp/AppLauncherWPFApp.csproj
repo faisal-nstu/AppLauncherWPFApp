@@ -34,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>app_launcher_icon_v2.ico</ApplicationIcon>
+    <ApplicationIcon>assets\appLauncherIco_al_flat_black.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -106,7 +106,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="app_launcher_icon_v2.ico" />
+    <Resource Include="assets\app_launcher_icon_v2.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="assets\appLauncherIco_flat_black.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="assets\appLauncherIco_al_flat_black.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
