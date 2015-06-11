@@ -32,6 +32,8 @@ namespace AppLauncherWPFApp
         {
             InitializeComponent();
             RenamerControl.Visibility = Visibility.Collapsed;
+            RenamerControl.OkButton.Click += OkButtonOnClick;
+            RenamerControl.CancelButton.Click += CancelButtonOnClick;
             SetWindow();
             SetListViewItemsSource();
         }
@@ -241,9 +243,6 @@ namespace AppLauncherWPFApp
             RenamerControl.Visibility = Visibility.Visible;
             RenamerControl.NameInpuTextBox.Text = _appToBeRenamed.AppName;
             RenamerControl.NameInpuTextBox.Focus();
-            RenamerControl.OkButton.Click += OkButtonOnClick;
-            RenamerControl.CancelButton.Click += CancelButtonOnClick;
-            
         }
 
         private void CancelButtonOnClick(object sender, RoutedEventArgs routedEventArgs)
