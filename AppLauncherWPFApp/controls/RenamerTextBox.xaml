@@ -1,0 +1,28 @@
+﻿<UserControl x:Class="AppLauncherWPFApp.controls.RenamerTextBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid Background="#BE000000">
+            <StackPanel VerticalAlignment="Center">
+            <TextBox x:Name="NameInpuTextBox" 
+                     Width="150"
+                     Height="25"
+                     FontFamily="Courier New"
+                     TextAlignment="Center"
+                     VerticalContentAlignment="Center"/>
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        Margin="0,5,0,0">
+                <Button x:Name="OkButton" Content="✔"
+                        Width="25"/>
+                <Button x:Name="CancelButton" 
+                        Content="X"
+                        Width="25"
+                        Margin="10,0,0,0"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

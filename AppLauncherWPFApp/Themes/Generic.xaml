@@ -43,7 +43,7 @@
                                        VerticalAlignment="Bottom"
                                        Width="50"
                                        TextAlignment="Center"
-                                       TextWrapping="Wrap" />
+                                       TextWrapping="Wrap"/>
                         </StackPanel>
                     </Border>
                 </DataTemplate>

@@ -26,10 +26,12 @@ namespace AppLauncherWPFApp
     {
         private int _tickCount;
         private bool _freezeWindow;
+        private AppDetails _appToBeRenamed;
         public ObservableCollection<AppItem> AppItems { get; set; }
         public MainWindow()
         {
             InitializeComponent();
+            RenamerControl.Visibility = Visibility.Collapsed;
             SetWindow();
             SetListViewItemsSource();
         }
@@ -235,10 +237,33 @@ namespace AppLauncherWPFApp
                 clickedApp.AppLocation = (AppListView.SelectedItem as AppItem).AppLocation;
             }
             var appList = GetAppList();
-            var appToBeRenamed = appList.Find(a => a.AppLocation == clickedApp.AppLocation);
-            var clickPos = GetMousePositionWindowsForms();
+            _appToBeRenamed = appList.Find(a => a.AppLocation == clickedApp.AppLocation);
+            RenamerControl.Visibility = Visibility.Visible;
+            RenamerControl.NameInpuTextBox.Text = _appToBeRenamed.AppName;
+            RenamerControl.NameInpuTextBox.Focus();
+            RenamerControl.OkButton.Click += OkButtonOnClick;
+            RenamerControl.CancelButton.Click += CancelButtonOnClick;
+            
+        }
 
+        private void CancelButtonOnClick(object sender, RoutedEventArgs routedEventArgs)
+        {
+            RenamerControl.Visibility = Visibility.Collapsed;
             _freezeWindow = false;
+        }
+
+        private void OkButtonOnClick(object sender, RoutedEventArgs routedEventArgs)
+        {
+            if (!string.IsNullOrEmpty(RenamerControl.NameInpuTextBox.Text))
+            {
+                var appList = GetAppList();
+                appList.Find(a => a.AppName == _appToBeRenamed.AppName).AppName =
+                    RenamerControl.NameInpuTextBox.Text.Trim();
+                WriteToFile(appList);
+                SetListViewItemsSource();
+                RenamerControl.Visibility = Visibility.Collapsed;
+                _freezeWindow = false;
+            }
         }
     }
 }

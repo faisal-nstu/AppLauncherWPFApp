@@ -45,3 +45,6 @@ E:\Faisal\C#\AppLauncherWPFApp\AppLauncherWPFApp\obj\Debug\AppLauncherWPFApp.Pro
 E:\Faisal\C#\AppLauncherWPFApp\AppLauncherWPFApp\obj\Debug\AppLauncherWPFApp.csproj.GenerateResource.Cache
 E:\Faisal\C#\AppLauncherWPFApp\AppLauncherWPFApp\obj\Debug\AppLauncherWPFApp.exe
 E:\Faisal\C#\AppLauncherWPFApp\AppLauncherWPFApp\obj\Debug\AppLauncherWPFApp.pdb
+E:\Faisal\C#\AppLauncherWPFApp\AppLauncherWPFApp\obj\Debug\controls\RenamerTextBox.baml
+E:\Faisal\C#\AppLauncherWPFApp\AppLauncherWPFApp\obj\Debug\controls\RenamerTextBox.g.cs
+E:\Faisal\C#\AppLauncherWPFApp\AppLauncherWPFApp\obj\Debug\AppLauncherWPFApp.csprojResolveAssemblyReference.cache
