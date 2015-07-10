@@ -7,7 +7,7 @@
         Height="350" 
         Width="525" 
         Background="#FFEEEEEE" 
-        WindowStyle="None">
+        WindowStyle="None" ResizeMode="NoResize">
     
     <Window.Resources>
         <DataTemplate x:Key="tiles">
@@ -72,7 +72,7 @@
                     </ContextMenu>
                 </ListView.ContextMenu>
             </ListView>
-            <controls:RenamerTextBox x:Name="RenamerControl"/>
+            <controls:RenamerTextBox x:Name="RenamerControl" />
         </Grid>
     </Grid>
 </Window>
