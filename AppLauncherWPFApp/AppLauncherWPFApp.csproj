@@ -34,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>app_launcher_v4.ico</ApplicationIcon>
+    <ApplicationIcon>app_launcher_v5.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -126,6 +126,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="app_launcher_v4.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="app_launcher_v5.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
