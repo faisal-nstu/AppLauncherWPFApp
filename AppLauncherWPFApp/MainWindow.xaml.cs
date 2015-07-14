@@ -50,22 +50,33 @@ namespace AppLauncherWPFApp
             var noOfApps = GetAppList().Count;
             var noOfAppsPerRow = Math.Ceiling(Math.Sqrt(noOfApps));
             var noOfAppsPerColumn = (noOfAppsPerRow * noOfAppsPerRow) - noOfApps < noOfAppsPerRow ? noOfAppsPerRow : (noOfAppsPerRow - 1);
-            this.Width = (76 * noOfAppsPerRow) < 200 ? 200 : (76 * noOfAppsPerRow);
-            this.Height = (100 * noOfAppsPerColumn + 40) < 200 ? 200 : (100 * noOfAppsPerColumn + 40);
+            this.Width = 0;
+            this.Height = 0;
+            var finalWidth = (76 * noOfAppsPerRow) < 200 ? 200 : (76 * noOfAppsPerRow);
+            var finalHeight = (100 * noOfAppsPerColumn + 40) < 200 ? 200 : (100 * noOfAppsPerColumn + 40);
+            finalHeight += 20;
+            finalWidth += 40;
             // set window position
-            if (xPos < (this.Width))
+            if (xPos < (finalWidth))
             {
                 this.Left = 0;
             }
-            else if ((xPos + this.Width) > workingAreaWidth)
+            else if ((xPos + finalWidth) > workingAreaWidth)
             {
-                this.Left = workingAreaWidth - this.Width;
+                this.Left = workingAreaWidth - finalWidth;
             }
             else
             {
-                this.Left = xPos - (this.Width / 2);
+                this.Left = xPos - (finalWidth / 2);
             }
-            this.Top = workingAreaHeight - this.Height;
+            this.Top = workingAreaHeight - finalHeight;
+            AnimateWindow(finalWidth,finalHeight);
+        }
+
+        private void AnimateWindow(double finalWidth, double finalHeight)
+        {
+            this.Width = finalWidth;
+            this.Height = finalHeight;
         }
 
         public Point GetMousePositionWindowsForms()
@@ -188,7 +199,7 @@ namespace AppLauncherWPFApp
             if (!File.Exists(appDataPath + "\\AppLauncher.xml"))
             {
                 string windowsFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
-                InitApp(windowsFolderPath + "\\notepad.exe");
+                FirstRunInit(windowsFolderPath + "\\notepad.exe");
 
             }
 
@@ -199,7 +210,7 @@ namespace AppLauncherWPFApp
             return appList;
         }
 
-        private void InitApp(string path)
+        private void FirstRunInit(string path)
         {
             List<AppDetails> initAppList = new List<AppDetails>() 
             {

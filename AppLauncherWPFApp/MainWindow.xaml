@@ -6,77 +6,77 @@
         Title="MainWindow" 
         Height="350" 
         Width="525" 
-        Background="#FFEEEEEE" 
-        WindowStyle="None" ResizeMode="NoResize">
+        Background="Transparent" 
+        WindowStyle="None" 
+        ResizeMode="NoResize"
+        AllowsTransparency="True">
     
     <Window.Resources>
-        <DataTemplate x:Key="tiles">
-            <StackPanel>
-                <Grid Height="50"
-                              Width="50"
-                              Background="#3cc77e">
-                </Grid>
-                <TextBlock Text="{Binding Title}"
-                           HorizontalAlignment="Center"/>
-            </StackPanel>
-        </DataTemplate>
         
     </Window.Resources>
-    
-    
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+    <Border Margin="20,20,20,0">
+        <Border.Effect>
+            <DropShadowEffect Color="#000000"
+                              Direction="45"
+                              BlurRadius="20"
+                              ShadowDepth="3" 
+                              RenderingBias="Quality"
+                              />
+        </Border.Effect>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-        <Border Grid.Row="0"
+            <Border Grid.Row="0"
                 BorderThickness="1,1,1,0"
                 BorderBrush="DarkGray">
-            <StackPanel 
+                <StackPanel 
                     Orientation="Horizontal" Background="White">
-                <TextBlock Text="LaunchR"
+                    <TextBlock Text="LaunchR"
                        FontSize="20"
                        Foreground="Gray"
                        VerticalAlignment="center"
                        Margin="20,0,20,0" 
                        FontFamily="Courier New"
                    />
-                <Button BorderThickness="0"
+                    <Button BorderThickness="0"
                     Background="Transparent"
                     Width="30"
                     Click="AddButtonClick"
                     >
-                    <Button.Content>
-                        <TextBlock Text="+"
+                        <Button.Content>
+                            <TextBlock Text="+"
                                FontSize="26"
                                Foreground="Gray"/>
-                    </Button.Content>
-                </Button>
+                        </Button.Content>
+                    </Button>
 
-            </StackPanel>
-        </Border>
-        <Grid Grid.Row="1"
+                </StackPanel>
+            </Border>
+            <Grid Grid.Row="1"
               Background="#00000000">
-            
-            <ListView x:Name="AppListView"
+
+                <ListView x:Name="AppListView"
                       PreviewMouseLeftButtonUp="AppListView_OnPreviewMouseLeftButtonUp"
                       Background="#FFE8E8E8">
-                <ListView.View>
-                    <cv:ImageView/>
-                </ListView.View>
-                <ListView.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Remove"
+                    <ListView.View>
+                        <cv:ImageView/>
+                    </ListView.View>
+                    <ListView.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Remove"
                                   Click="RemoveMenuItemClicked"
                                   />
-                        <MenuItem Header="Rename"
+                            <MenuItem Header="Rename"
                                   Click="RenameMenuItemClicked"
                                   />
-                    </ContextMenu>
-                </ListView.ContextMenu>
-            </ListView>
-            <controls:RenamerTextBox x:Name="RenamerControl" />
+                        </ContextMenu>
+                    </ListView.ContextMenu>
+                </ListView>
+                <controls:RenamerTextBox x:Name="RenamerControl" />
+            </Grid>
         </Grid>
-    </Grid>
+    </Border>
 </Window>

@@ -9,7 +9,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using Avalon.Demo;
 using System;
 using System.Diagnostics;
 using System.Windows;
