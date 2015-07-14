@@ -29,29 +29,33 @@
             <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
-        <StackPanel Grid.Row="0"
+
+        <Border Grid.Row="0"
+                BorderThickness="1,1,1,0"
+                BorderBrush="DarkGray">
+            <StackPanel 
                     Orientation="Horizontal" Background="White">
-            <TextBlock Text="LaunchR"
+                <TextBlock Text="LaunchR"
                        FontSize="20"
                        Foreground="Gray"
                        VerticalAlignment="center"
                        Margin="20,0,20,0" 
                        FontFamily="Courier New"
-                   /> 
-            <Button BorderThickness="0"
-                    Background="White"
+                   />
+                <Button BorderThickness="0"
+                    Background="Transparent"
                     Width="30"
                     Click="AddButtonClick"
                     >
-                <Button.Content>
-                    <TextBlock Text="+"
+                    <Button.Content>
+                        <TextBlock Text="+"
                                FontSize="26"
                                Foreground="Gray"/>
-                </Button.Content>
-            </Button>
+                    </Button.Content>
+                </Button>
 
-        </StackPanel>
+            </StackPanel>
+        </Border>
         <Grid Grid.Row="1"
               Background="#00000000">
             

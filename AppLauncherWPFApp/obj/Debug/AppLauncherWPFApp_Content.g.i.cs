@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("assets/applauncherico_al_flat_black.ico")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("app_launcher_v4.ico")]
 
 
