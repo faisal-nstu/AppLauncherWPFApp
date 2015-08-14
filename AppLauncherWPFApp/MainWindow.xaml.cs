@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Diagnostics;
+using System.Windows.Forms;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -54,8 +55,8 @@ namespace AppLauncherWPFApp
             this.Height = 0;
             var finalWidth = (76 * noOfAppsPerRow) < 200 ? 200 : (76 * noOfAppsPerRow);
             var finalHeight = (100 * noOfAppsPerColumn + 40) < 200 ? 200 : (100 * noOfAppsPerColumn + 40);
-            finalHeight += 20;
-            finalWidth += 40;
+            finalHeight += 0;
+            finalWidth += 10;
             // set window position
             if (xPos < (finalWidth))
             {
@@ -238,6 +239,19 @@ namespace AppLauncherWPFApp
             WriteToFile(appList);
             SetListViewItemsSource();
             _freezeWindow = false;
+        }
+
+        private void OpenFileLocationClicked(object sender, RoutedEventArgs e)
+        {
+            if (AppListView.SelectedItem != null)
+            {
+                var appItem = AppListView.SelectedItem as AppItem;
+                if (appItem != null)
+                {
+                    var folderPath = System.IO.Path.GetDirectoryName(appItem.AppLocation);
+                    if (folderPath != null) Process.Start(folderPath);
+                }
+            }
         }
 
         private void RenameMenuItemClicked(object sender, RoutedEventArgs e)

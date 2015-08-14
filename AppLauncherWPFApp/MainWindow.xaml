@@ -14,7 +14,7 @@
     <Window.Resources>
         
     </Window.Resources>
-    <Border Margin="20,20,20,0">
+    <Border Margin="20,20,20,5">
         <Border.Effect>
             <DropShadowEffect Color="#000000"
                               Direction="45"
@@ -73,10 +73,14 @@
                             <MenuItem Header="Rename"
                                   Click="RenameMenuItemClicked"
                                   />
+                            <MenuItem Header="Open file location"
+                                  Click="OpenFileLocationClicked"
+                                  />
                         </ContextMenu>
                     </ListView.ContextMenu>
                 </ListView>
-                <controls:RenamerTextBox x:Name="RenamerControl" />
+                <controls:RenamerTextBox x:Name="RenamerControl" 
+                                         />
             </Grid>
         </Grid>
     </Border>
