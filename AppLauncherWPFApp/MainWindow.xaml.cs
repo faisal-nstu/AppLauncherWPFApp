@@ -54,7 +54,7 @@ namespace AppLauncherWPFApp
             this.Width = 0;
             this.Height = 0;
             var finalWidth = (76 * noOfAppsPerRow) < 200 ? 200 : (76 * noOfAppsPerRow);
-            var finalHeight = (100 * noOfAppsPerColumn + 40) < 200 ? 200 : (100 * noOfAppsPerColumn + 40);
+            var finalHeight = (100 * noOfAppsPerColumn + 40) < 200 ? 200 : (100 * noOfAppsPerColumn + 0);
             finalHeight += 0;
             finalWidth += 10;
             // set window position
@@ -123,7 +123,7 @@ namespace AppLauncherWPFApp
             foreach (var app in appList)
             {
                 var appItem = new AppItem();
-                appItem.AppName = app.AppName;
+                appItem.AppName = app.AppName.Length>18 ? app.AppName.Substring(0,15)+"...": app.AppName;
                 appItem.AppLocation = app.AppLocation;
                 AppItems.Add(appItem);
             }
