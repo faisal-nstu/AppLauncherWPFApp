@@ -43,17 +43,23 @@
                        FontFamily="Courier New"
                    />
                     <Button BorderThickness="0"
-                    Background="Transparent"
-                    Width="30"
-                    Click="AddButtonClick"
-                    >
-                        <Button.Content>
-                            <TextBlock Text="+"
-                               FontSize="26"
-                               Foreground="Gray"/>
-                        </Button.Content>
+                            Background="Transparent"
+                            Width="30"
+                            x:Name="AddButton"
+                            Click="AddButtonClick"
+                            FontSize="26"
+                            Foreground="Gray"
+                            Content="+">
                     </Button>
-
+                    <Button BorderBrush="Gray"
+                            BorderThickness="0,0,0,2"
+                            Margin="5,0,0,0"
+                            Content="BROWSE"
+                            Height="20"
+                            Background="Transparent"
+                            Foreground="Gray"
+                            x:Name="BrowseButton"
+                            Click="BrowseButton_OnClick"/>
                 </StackPanel>
             </Border>
             <Grid Grid.Row="1"
@@ -81,6 +87,26 @@
                 </ListView>
                 <controls:RenamerTextBox x:Name="RenamerControl" 
                                          />
+                <Grid Background="#E9FFFFFF"
+                      x:Name="DropBgGrid"
+                      AllowDrop="True"
+                      Drop="DropZone_OnDrop">
+                    <Rectangle StrokeDashArray="2" 
+                               Stroke="Gray" 
+                               StrokeThickness="5" 
+                               RadiusX="40" 
+                               RadiusY="40"
+                               Margin="30"
+                               x:Name="DropZone"
+                               />
+                    <TextBlock Foreground="Gray"
+                               FontSize="32"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               >
+                        <Bold>Drop Here</Bold>
+                    </TextBlock>
+                </Grid>
             </Grid>
         </Grid>
     </Border>

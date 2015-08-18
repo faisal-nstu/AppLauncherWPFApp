@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DragEventArgs = System.Windows.DragEventArgs;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace AppLauncherWPFApp
@@ -27,12 +28,15 @@ namespace AppLauncherWPFApp
     {
         private int _tickCount;
         private bool _freezeWindow;
+        private bool _isDropZoneOpen;
         private AppDetails _appToBeRenamed;
         public ObservableCollection<AppItem> AppItems { get; set; }
         public MainWindow()
         {
             InitializeComponent();
             RenamerControl.Visibility = Visibility.Collapsed;
+            DropBgGrid.Visibility = Visibility.Collapsed;
+            BrowseButton.Visibility = Visibility.Collapsed;
             RenamerControl.OkButton.Click += OkButtonOnClick;
             RenamerControl.CancelButton.Click += CancelButtonOnClick;
             SetWindow();
@@ -42,6 +46,7 @@ namespace AppLauncherWPFApp
         private void SetWindow()
         {
             _freezeWindow = false;
+            _isDropZoneOpen = false;
             this.Deactivated += OnWindowDeactivated;
             // get mouse position
             double workingAreaHeight = Screen.PrimaryScreen.WorkingArea.Height;
@@ -54,7 +59,7 @@ namespace AppLauncherWPFApp
             this.Width = 0;
             this.Height = 0;
             var finalWidth = (76 * noOfAppsPerRow) < 200 ? 200 : (76 * noOfAppsPerRow);
-            var finalHeight = (100 * noOfAppsPerColumn + 40) < 200 ? 200 : (100 * noOfAppsPerColumn + 0);
+            var finalHeight = (100 * noOfAppsPerColumn + 40) < 200 ? 200 : (100 * noOfAppsPerColumn + 40);
             finalHeight += 0;
             finalWidth += 10;
             // set window position
@@ -152,15 +157,25 @@ namespace AppLauncherWPFApp
 
         private void AddButtonClick(object sender, RoutedEventArgs e)
         {
-            _freezeWindow = true;
-            OpenFileDialog fileBrowser = new OpenFileDialog();
-            fileBrowser.ShowDialog();
-            var selectedApp = fileBrowser.FileName;
-            if (!string.IsNullOrEmpty(selectedApp))
+            if (!_isDropZoneOpen)
             {
-                AddApp(selectedApp);
+                _isDropZoneOpen = true;
+                _freezeWindow = true;
+                //AddButton.Content = "✕";
+                //AddButton.Content = "✖";
+                //AddButton.Content = "×";
+                AddButton.Content = "⨯";
+                DropBgGrid.Visibility = Visibility.Visible;
+                BrowseButton.Visibility = Visibility.Visible;
             }
-            _freezeWindow = false;
+            else
+            {
+                _isDropZoneOpen = false;
+                _freezeWindow = false;
+                AddButton.Content = "+";
+                DropBgGrid.Visibility = Visibility.Collapsed;
+                BrowseButton.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void AddApp(string selectedApp)
@@ -288,6 +303,40 @@ namespace AppLauncherWPFApp
                 RenamerControl.Visibility = Visibility.Collapsed;
                 _freezeWindow = false;
             }
+        }
+
+        private void DropZone_OnDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(System.Windows.DataFormats.FileDrop))
+            {
+                // Note that you can have more than one file.
+                string[] files = (string[])e.Data.GetData(System.Windows.DataFormats.FileDrop);
+                foreach (var file in files)
+                {
+                    AddApp(file);
+                }
+            }
+            _isDropZoneOpen = false;
+            AddButton.Content = "+";
+            DropBgGrid.Visibility = Visibility.Collapsed;
+            BrowseButton.Visibility = Visibility.Collapsed;
+            _freezeWindow = false;
+        }
+
+        private void BrowseButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog fileBrowser = new OpenFileDialog();
+            fileBrowser.ShowDialog();
+            var selectedApp = fileBrowser.FileName;
+            if (!string.IsNullOrEmpty(selectedApp))
+            {
+                AddApp(selectedApp);
+            }
+            _isDropZoneOpen = false;
+            AddButton.Content = "+";
+            DropBgGrid.Visibility = Visibility.Collapsed;
+            BrowseButton.Visibility = Visibility.Collapsed;
+            _freezeWindow = false;
         }
     }
 }
