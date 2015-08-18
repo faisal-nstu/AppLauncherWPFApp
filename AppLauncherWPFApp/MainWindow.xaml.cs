@@ -164,7 +164,8 @@ namespace AppLauncherWPFApp
                 //AddButton.Content = "✕";
                 //AddButton.Content = "✖";
                 //AddButton.Content = "×";
-                AddButton.Content = "⨯";
+                //AddButton.Content = "⨯";
+                AddButton.Content = "⨉";
                 DropBgGrid.Visibility = Visibility.Visible;
                 BrowseButton.Visibility = Visibility.Visible;
             }

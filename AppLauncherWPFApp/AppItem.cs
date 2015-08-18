@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.ConstrainedExecution;
 using System.Runtime.Remoting.Activation;
@@ -29,7 +30,18 @@ namespace AppLauncherWPFApp
                 Icon _appIcon = null;
                 if (AppLocation != "")
                 {
-                    _appIcon = Icon.ExtractAssociatedIcon(AppLocation);
+                    FileAttributes attr = File.GetAttributes(AppLocation);
+
+                    //detect whether its a directory or file
+                    if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
+                    {
+                        var explorerLocation = Environment.GetEnvironmentVariable("windir") + "\\explorer.exe";
+                        _appIcon = Icon.ExtractAssociatedIcon(explorerLocation);
+                    }
+                    else
+                    {
+                        _appIcon = Icon.ExtractAssociatedIcon(AppLocation);
+                    }
                     _imgSrc = IconToImageSource(_appIcon);
                 }
                 return _imgSrc; 
