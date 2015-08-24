@@ -40,7 +40,7 @@ namespace AppLauncherWPFApp
             RenamerControl.OkButton.Click += OkButtonOnClick;
             RenamerControl.CancelButton.Click += CancelButtonOnClick;
             SetWindow();
-            SetListViewItemsSource();
+            SetListViewItemsSource();            
         }
 
         private void SetWindow()
@@ -328,6 +328,7 @@ namespace AppLauncherWPFApp
         {
             OpenFileDialog fileBrowser = new OpenFileDialog();
             fileBrowser.ShowDialog();
+
             var selectedApp = fileBrowser.FileName;
             if (!string.IsNullOrEmpty(selectedApp))
             {

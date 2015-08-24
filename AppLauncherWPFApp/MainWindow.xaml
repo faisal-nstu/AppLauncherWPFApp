@@ -74,14 +74,23 @@
                     <ListView.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Remove"
-                                  Click="RemoveMenuItemClicked"
-                                  />
+                                  Click="RemoveMenuItemClicked">
+                                <MenuItem.Icon>
+                                    <Image Source="assets/delete.png"></Image>
+                                </MenuItem.Icon>
+                            </MenuItem>
                             <MenuItem Header="Rename"
-                                  Click="RenameMenuItemClicked"
-                                  />
+                                  Click="RenameMenuItemClicked">
+                                <MenuItem.Icon>
+                                    <Image Source="assets/rename.png"></Image>
+                                </MenuItem.Icon>
+                            </MenuItem>
                             <MenuItem Header="Open file location"
-                                  Click="OpenFileLocationClicked"
-                                  />
+                                  Click="OpenFileLocationClicked">
+                                <MenuItem.Icon>
+                                    <Image Source="assets/folder.png"></Image>
+                                </MenuItem.Icon>
+                            </MenuItem>
                         </ContextMenu>
                     </ListView.ContextMenu>
                 </ListView>
@@ -104,7 +113,7 @@
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                >
-                        <Bold>Drop Here</Bold>
+                        <Bold>DROP HERE</Bold>
                     </TextBlock>
                 </Grid>
             </Grid>
