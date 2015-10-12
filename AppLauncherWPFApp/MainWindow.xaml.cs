@@ -4,18 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using DragEventArgs = System.Windows.DragEventArgs;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
@@ -339,6 +330,22 @@ namespace AppLauncherWPFApp
             DropBgGrid.Visibility = Visibility.Collapsed;
             BrowseButton.Visibility = Visibility.Collapsed;
             _freezeWindow = false;
+        }
+
+        private bool _isKeepOpenChecked;
+        private void KeepOpenRadioButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (_isKeepOpenChecked)
+            {
+                _isKeepOpenChecked = false;
+                _freezeWindow = false;
+                KeepOpenRadioButton.IsChecked = false;
+            }
+            else
+            {
+                _isKeepOpenChecked = true;
+                _freezeWindow = true;
+            }
         }
     }
 }
