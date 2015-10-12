@@ -21,6 +21,7 @@ namespace AppLauncherWPFApp
         private int _tickCount;
         private bool _freezeWindow;
         private bool _isDropZoneOpen;
+        private bool _isKeepOpenChecked;
         private AppDetails _appToBeRenamed;
         public ObservableCollection<AppItem> AppItems { get; set; }
         public MainWindow()
@@ -164,7 +165,10 @@ namespace AppLauncherWPFApp
             else
             {
                 _isDropZoneOpen = false;
-                _freezeWindow = false;
+                if (!_isKeepOpenChecked)
+                {
+                    _freezeWindow = false;
+                }
                 AddButton.Content = "+";
                 DropBgGrid.Visibility = Visibility.Collapsed;
                 BrowseButton.Visibility = Visibility.Collapsed;
@@ -246,7 +250,10 @@ namespace AppLauncherWPFApp
             appList.Remove(appToBeRemoved);
             WriteToFile(appList);
             SetListViewItemsSource();
-            _freezeWindow = false;
+            if (!_isKeepOpenChecked)
+            {
+                _freezeWindow = false;
+            }
         }
 
         private void OpenFileLocationClicked(object sender, RoutedEventArgs e)
@@ -281,7 +288,10 @@ namespace AppLauncherWPFApp
         private void CancelButtonOnClick(object sender, RoutedEventArgs routedEventArgs)
         {
             RenamerControl.Visibility = Visibility.Collapsed;
-            _freezeWindow = false;
+            if (!_isKeepOpenChecked)
+            {
+                _freezeWindow = false;
+            }
         }
 
         private void OkButtonOnClick(object sender, RoutedEventArgs routedEventArgs)
@@ -294,7 +304,10 @@ namespace AppLauncherWPFApp
                 WriteToFile(appList);
                 SetListViewItemsSource();
                 RenamerControl.Visibility = Visibility.Collapsed;
-                _freezeWindow = false;
+                if (!_isKeepOpenChecked)
+                {
+                    _freezeWindow = false;
+                }
             }
         }
 
@@ -313,7 +326,10 @@ namespace AppLauncherWPFApp
             AddButton.Content = "+";
             DropBgGrid.Visibility = Visibility.Collapsed;
             BrowseButton.Visibility = Visibility.Collapsed;
-            _freezeWindow = false;
+            if (!_isKeepOpenChecked)
+            {
+                _freezeWindow = false;
+            }
         }
 
         private void BrowseButton_OnClick(object sender, RoutedEventArgs e)
@@ -330,10 +346,11 @@ namespace AppLauncherWPFApp
             AddButton.Content = "+";
             DropBgGrid.Visibility = Visibility.Collapsed;
             BrowseButton.Visibility = Visibility.Collapsed;
-            _freezeWindow = false;
+            if (!_isKeepOpenChecked)
+            {
+                _freezeWindow = false;   
+            }
         }
-
-        private bool _isKeepOpenChecked;
         private void KeepOpenRadioButton_OnClick(object sender, RoutedEventArgs e)
         {
             if (_isKeepOpenChecked)
