@@ -147,14 +147,21 @@
                             Click="BrowseButton_OnClick"/>
                 </StackPanel>
             </Border>
-            <RadioButton x:Name="KeepOpenRadioButton" 
+            <!--<RadioButton x:Name="KeepOpenRadioButton" 
                          Grid.Row="0" 
                          HorizontalAlignment="Right" 
                          VerticalAlignment="Top" 
                          Margin="0,13,13,0"
                          Click="KeepOpenRadioButton_OnClick" 
                          ToolTip="Keep Open" Style="{DynamicResource KeepOpenRadioButtonStyle}" 
-                         BorderThickness="2"/>
+                         BorderThickness="2"/>-->
+            <Image x:Name="PinImage"
+                   Source="/assets/pin24x24.png"
+                   Margin="10"
+                   Grid.Row="0" 
+                   HorizontalAlignment="Right" 
+                   VerticalAlignment="Top"
+                   MouseUp="KeepOpenRadioButton_OnClick"></Image>
             <Grid Grid.Row="1"
               Background="#00000000">
 

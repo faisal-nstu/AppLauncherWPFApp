@@ -7,6 +7,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using DragEventArgs = System.Windows.DragEventArgs;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
@@ -339,12 +340,14 @@ namespace AppLauncherWPFApp
             {
                 _isKeepOpenChecked = false;
                 _freezeWindow = false;
-                KeepOpenRadioButton.IsChecked = false;
+                //KeepOpenRadioButton.IsChecked = false;
+                PinImage.Source = new BitmapImage(new Uri("/assets/pin24x24.png", UriKind.Relative));
             }
             else
             {
                 _isKeepOpenChecked = true;
                 _freezeWindow = true;
+                PinImage.Source = new BitmapImage(new Uri("/assets/unpin24x24.png", UriKind.Relative));
             }
         }
     }
