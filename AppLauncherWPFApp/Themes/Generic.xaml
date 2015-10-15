@@ -5,12 +5,13 @@
            TargetType="{x:Type ListView}" BasedOn="{StaticResource {x:Type ListBox}}">
         <Setter Property="BorderBrush" Value="Black" />
         <Setter Property="BorderThickness" Value="0.5" />
+        
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
                     <Border Name="bd" BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            Background="{TemplateBinding Background}" Margin="{TemplateBinding Margin}">
+                            Background="{TemplateBinding Background}" Margin="{TemplateBinding Margin}" >
                         <ScrollViewer Margin="{TemplateBinding Padding}">
                             <WrapPanel IsItemsHost="True"
                                        Width="{Binding ActualWidth,RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}" />
@@ -25,12 +26,13 @@
            TargetType='{x:Type ListViewItem}' BasedOn='{StaticResource {x:Type ListBoxItem}}'>
         <Setter Property='Padding' Value='3' />
         <Setter Property='Margin' Value='5' />
+        <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property='HorizontalContentAlignment' Value='Center' />
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <Border>
-                        <StackPanel>
+                    <Border  >
+                        <StackPanel >
                             <Image Source="{Binding ImageSource, Mode=TwoWay}"
                                    Width="32"
                                    Height="32" />
