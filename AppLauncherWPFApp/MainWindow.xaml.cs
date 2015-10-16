@@ -74,7 +74,7 @@ namespace AppLauncherWPFApp
 
         private void AnimateWindow(double finalWidth, double finalHeight)
         {
-            this.Width = finalWidth;
+            this.Width = finalWidth < 250 ? 250 : finalWidth;
             this.Height = finalHeight;
         }
 
