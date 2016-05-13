@@ -34,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>assets\app_launcher_v5.ico</ApplicationIcon>
+    <ApplicationIcon>app_launcher_icon_v2.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -123,6 +123,9 @@
   <ItemGroup>
     <Resource Include="assets\pin24x24.png" />
     <Resource Include="assets\unpin24x24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="app_launcher_icon_v2.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

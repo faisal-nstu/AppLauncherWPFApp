@@ -68,13 +68,14 @@ namespace AppLauncherWPFApp
             {
                 this.Left = xPos - (finalWidth / 2);
             }
+            finalHeight = finalHeight < 400 ? 400 : finalHeight;
             this.Top = workingAreaHeight - finalHeight;
             AnimateWindow(finalWidth,finalHeight);
         }
 
         private void AnimateWindow(double finalWidth, double finalHeight)
         {
-            this.Width = finalWidth < 250 ? 250 : finalWidth;
+            this.Width = finalWidth < 350 ? 350 : finalWidth;
             this.Height = finalHeight;
         }
 
@@ -212,7 +213,15 @@ namespace AppLauncherWPFApp
             if (!File.Exists(appDataPath + "\\AppLauncher.xml"))
             {
                 string windowsFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
-                FirstRunInit(windowsFolderPath + "\\notepad.exe");
+                if (File.Exists(windowsFolderPath + "\\notepad.exe"))
+                {
+                    //FirstRunInit(windowsFolderPath + "\\notepad.exe");   
+                    FirstRunInit(null); 
+                }
+                else
+                {
+                    FirstRunInit(null);   
+                }
 
             }
 
@@ -225,14 +234,15 @@ namespace AppLauncherWPFApp
 
         private void FirstRunInit(string path)
         {
-            List<AppDetails> initAppList = new List<AppDetails>() 
+            List<AppDetails> initAppList = new List<AppDetails>();
+            if (!string.IsNullOrEmpty(path))
             {
-                new AppDetails()
+                initAppList.Add(new AppDetails()
                 {
                     AppLocation = path,
                     AppName = System.IO.Path.GetFileNameWithoutExtension(path)
-                }
-            };
+                });
+            }
             WriteToFile(initAppList);
         }
 
