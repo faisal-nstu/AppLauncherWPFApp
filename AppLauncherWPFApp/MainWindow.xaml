@@ -1,15 +1,15 @@
 ﻿<Window x:Class="AppLauncherWPFApp.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:cv="clr-namespace:Avalon.Demo"
         xmlns:controls="clr-namespace:AppLauncherWPFApp.controls"
         Title="MainWindow" 
         Height="350" 
-        Width="525" 
+        Width="325" 
         Background="Transparent" 
         WindowStyle="None" 
         ResizeMode="NoResize"
-        AllowsTransparency="True">
+        AllowsTransparency="True"
+        FontFamily="Courier New">
 
     <Window.Resources>
 
@@ -121,9 +121,7 @@
                        FontSize="20"
                        Foreground="Gray"
                        VerticalAlignment="center"
-                       Margin="20,0,20,0" 
-                       FontFamily="Courier New"
-                   />
+                       Margin="20,0,20,0"/>
                     <Button BorderThickness="0"
                             Background="Transparent"
                             Width="30"
@@ -147,16 +145,9 @@
                             Click="BrowseButton_OnClick"/>
                 </StackPanel>
             </Border>
-            <!--<RadioButton x:Name="KeepOpenRadioButton" 
-                         Grid.Row="0" 
-                         HorizontalAlignment="Right" 
-                         VerticalAlignment="Top" 
-                         Margin="0,13,13,0"
-                         Click="KeepOpenRadioButton_OnClick" 
-                         ToolTip="Keep Open" Style="{DynamicResource KeepOpenRadioButtonStyle}" 
-                         BorderThickness="2"/>-->
+            
             <Image x:Name="PinImage"
-                   Source="/assets/pin24x24.png"
+                   Source="/assets/unpinned.png"
                    Margin="10"
                    Grid.Row="0" 
                    HorizontalAlignment="Right" 
@@ -169,7 +160,7 @@
                       PreviewMouseLeftButtonUp="AppListView_OnPreviewMouseLeftButtonUp"
                       Background="#FFE8E8E8">
                     <ListView.View>
-                        <cv:ImageView/>
+                        <controls:ImageView/>
                     </ListView.View>
                     <ListView.ContextMenu>
                         <ContextMenu>
@@ -194,14 +185,16 @@
                         </ContextMenu>
                     </ListView.ContextMenu>
                 </ListView>
-                <controls:RenamerTextBox x:Name="RenamerControl" />
+                <controls:RenamerTextBox x:Name="RenamerControl" 
+                                         Visibility="Collapsed"/>
                 <Grid Background="#E9FFFFFF" 
                       x:Name="DropBgGrid"
                       AllowDrop="True"
-                      Drop="DropZone_OnDrop">
+                      Drop="DropZone_OnDrop"
+                      Visibility="Collapsed">
                     <Rectangle StrokeDashArray="2" 
                                Stroke="Gray" 
-                               StrokeThickness="5" 
+                               StrokeThickness="3" 
                                RadiusX="40" 
                                RadiusY="40"
                                Margin="30"
@@ -214,6 +207,43 @@
                                >
                         <Bold>DROP HERE</Bold>
                     </TextBlock>
+                </Grid>
+                <Grid x:Name="NotFoundMessageGrid"
+                      Background="#BE000000"
+                      Visibility="Collapsed">
+                    <Border Background="White"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            CornerRadius="5">
+                        <StackPanel Orientation="Vertical"
+                                    Margin="10">
+                            <TextBlock Text="File or Folder not found. Do you want to delete the shortcut?"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Margin="0,10"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Button Content="Yes"
+                                        Grid.Column="0"
+                                        Margin="0,10,5,0"
+                                        Padding="5"
+                                        BorderBrush="LightGray"
+                                        x:Name="YesButton"
+                                        Click="YesButton_OnClick"/>
+                                <Button Content="No"
+                                        Grid.Column="1"
+                                        Margin="5,10,0,0"
+                                        Padding="5"
+                                        BorderBrush="LightGray"
+                                        x:Name="NoButton"
+                                        Click="NoButton_OnClick"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
                 </Grid>
             </Grid>
         </Grid>

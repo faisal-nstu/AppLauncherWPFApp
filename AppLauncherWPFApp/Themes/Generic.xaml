@@ -1,6 +1,6 @@
 <ResourceDictionary xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation'
                     xmlns:x='http://schemas.microsoft.com/winfx/2006/xaml'
-                    xmlns:l="clr-namespace:Avalon.Demo">
+                    xmlns:l="clr-namespace:AppLauncherWPFApp.controls">
     <Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type l:ImageView},ResourceId=ImageView}"
            TargetType="{x:Type ListView}" BasedOn="{StaticResource {x:Type ListBox}}">
         <Setter Property="BorderBrush" Value="Black" />
@@ -9,9 +9,11 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Border Name="bd" BorderBrush="{TemplateBinding BorderBrush}"
+                    <Border Name="bd" 
+                            BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            Background="{TemplateBinding Background}" Margin="{TemplateBinding Margin}" >
+                            Background="{TemplateBinding Background}" 
+                            Margin="{TemplateBinding Margin}" >
                         <ScrollViewer Margin="{TemplateBinding Padding}">
                             <WrapPanel IsItemsHost="True"
                                        Width="{Binding ActualWidth,RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}" />

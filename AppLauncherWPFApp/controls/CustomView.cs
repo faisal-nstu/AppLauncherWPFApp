@@ -1,10 +1,7 @@
-using System;
-using System.Collections.ObjectModel;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Avalon.Demo
+namespace AppLauncherWPFApp.controls
 {
     /// <summary>
     /// ImageView displays image files using themselves as their icons.
@@ -17,20 +14,19 @@ namespace Avalon.Demo
     {
         #region DefaultStyleKey
 
-        protected override object DefaultStyleKey
-        {
-            get { return new ComponentResourceKey(GetType(), "ImageView"); }
-        }
+        protected override object DefaultStyleKey => new ComponentResourceKey(GetType(), "ImageView");
 
         #endregion
 
         #region ItemContainerDefaultStyleKey
 
-        protected override object ItemContainerDefaultStyleKey
-        {
-            get { return new ComponentResourceKey(GetType(), "ImageViewItem"); }
-        }
+        protected override object ItemContainerDefaultStyleKey => new ComponentResourceKey(GetType(), "ImageViewItem");
 
         #endregion
+
+        private void PinImage_OnImageFailed(object sender, ExceptionRoutedEventArgs e)
+        {
+            var ff = sender;
+        }
     }
 }

@@ -21,22 +21,29 @@ namespace AppLauncherWPFApp
         {
             get 
             {
-                Icon _appIcon = null;
                 if (AppLocation != "")
                 {
-                    FileAttributes attr = File.GetAttributes(AppLocation);
+                    try
+                    {
+                        FileAttributes attr = File.GetAttributes(AppLocation);
 
-                    //detect whether its a directory or file
-                    if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
-                    {
-                        var explorerLocation = Environment.GetEnvironmentVariable("windir") + "\\explorer.exe";
-                        _appIcon = Icon.ExtractAssociatedIcon(explorerLocation);
+                        //detect whether its a directory or file
+                        Icon appIcon;
+                        if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
+                        {
+                            var explorerLocation = Environment.GetEnvironmentVariable("windir") + "\\explorer.exe";
+                            appIcon = Icon.ExtractAssociatedIcon(explorerLocation);
+                        }
+                        else
+                        {
+                            appIcon = Icon.ExtractAssociatedIcon(AppLocation);
+                        }
+                        _imgSrc = IconToImageSource(appIcon);
                     }
-                    else
+                    catch (Exception)
                     {
-                        _appIcon = Icon.ExtractAssociatedIcon(AppLocation);
+                        return  new BitmapImage(new Uri("/assets/not_found.png", UriKind.Relative));
                     }
-                    _imgSrc = IconToImageSource(_appIcon);
                 }
                 return _imgSrc; 
             }
@@ -49,7 +56,7 @@ namespace AppLauncherWPFApp
                 icon.Handle,
                 Int32Rect.Empty,
                 BitmapSizeOptions.FromEmptyOptions());
-
+            
             return imageSource;
         }
 

@@ -121,11 +121,14 @@
     <Resource Include="assets\rename.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="assets\pin24x24.png" />
-    <Resource Include="assets\unpin24x24.png" />
+    <Resource Include="app_launcher_icon_v2.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="app_launcher_icon_v2.ico" />
+    <Resource Include="assets\not_found.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="assets\pinned.png" />
+    <Resource Include="assets\unpinned.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

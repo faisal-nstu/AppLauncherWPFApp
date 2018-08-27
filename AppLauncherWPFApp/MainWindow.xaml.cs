@@ -23,6 +23,8 @@ namespace AppLauncherWPFApp
         private bool _isDropZoneOpen;
         private bool _isKeepOpenChecked;
         private AppDetails _appToBeRenamed;
+        private AppItem _selectedApp;
+
         public ObservableCollection<AppItem> AppItems { get; set; }
         public MainWindow()
         {
@@ -143,10 +145,25 @@ namespace AppLauncherWPFApp
                     clickedApp = (e.OriginalSource as FrameworkElement).DataContext as AppItem;
                 }
                 if (clickedApp != null && clickedApp.AppLocation != "")
-                    System.Diagnostics.Process.Start(clickedApp.AppLocation);
+                {
+                    try
+                    {
+                        Process.Start(clickedApp.AppLocation);
+                    }
+                    catch (Exception)
+                    {
+                        ShowMessage(clickedApp);
+                    }
+                }
             }
             
             
+        }
+
+        private void ShowMessage(AppItem clickedApp)
+        {
+            _selectedApp = clickedApp;
+            NotFoundMessageGrid.Visibility = Visibility.Visible;
         }
 
         private void AddButtonClick(object sender, RoutedEventArgs e)
@@ -155,11 +172,7 @@ namespace AppLauncherWPFApp
             {
                 _isDropZoneOpen = true;
                 _freezeWindow = true;
-                //AddButton.Content = "✕";
-                //AddButton.Content = "✖";
-                //AddButton.Content = "×";
-                //AddButton.Content = "⨯";
-                AddButton.Content = "⨉";
+                AddButton.Content = "×"; //⨉
                 DropBgGrid.Visibility = Visibility.Visible;
                 BrowseButton.Visibility = Visibility.Visible;
             }
@@ -249,21 +262,27 @@ namespace AppLauncherWPFApp
         private void RemoveMenuItemClicked(object sender, RoutedEventArgs e)
         {
             _freezeWindow = true;
-            AppDetails clickedApp = new AppDetails();
-            if (AppListView.SelectedItem != null )
+
+            DeleteItem();
+
+            if (!_isKeepOpenChecked)
+                _freezeWindow = false;
+        }
+
+        private void DeleteItem()
+        {
+            var clickedApp = new AppDetails();
+            var appItem = AppListView.SelectedItem as AppItem;
+            if (appItem != null)
             {
-                clickedApp.AppName = (AppListView.SelectedItem as AppItem).AppName;
-                clickedApp.AppLocation = (AppListView.SelectedItem as AppItem).AppLocation;
+                clickedApp.AppName = appItem.AppName;
+                clickedApp.AppLocation = appItem.AppLocation;
             }
             var appList = GetAppList();
             var appToBeRemoved = appList.Find(a => a.AppLocation == clickedApp.AppLocation);
             appList.Remove(appToBeRemoved);
             WriteToFile(appList);
             SetListViewItemsSource();
-            if (!_isKeepOpenChecked)
-            {
-                _freezeWindow = false;
-            }
         }
 
         private void OpenFileLocationClicked(object sender, RoutedEventArgs e)
@@ -271,11 +290,8 @@ namespace AppLauncherWPFApp
             if (AppListView.SelectedItem != null)
             {
                 var appItem = AppListView.SelectedItem as AppItem;
-                if (appItem != null)
-                {
-                    var folderPath = System.IO.Path.GetDirectoryName(appItem.AppLocation);
-                    if (folderPath != null) Process.Start(folderPath);
-                }
+                var folderPath = System.IO.Path.GetDirectoryName(appItem?.AppLocation);
+                if (folderPath != null) Process.Start(folderPath);
             }
         }
 
@@ -368,14 +384,25 @@ namespace AppLauncherWPFApp
                 _isKeepOpenChecked = false;
                 _freezeWindow = false;
                 //KeepOpenRadioButton.IsChecked = false;
-                PinImage.Source = new BitmapImage(new Uri("/assets/pin24x24.png", UriKind.Relative));
+                PinImage.Source = new BitmapImage(new Uri("/assets/unpinned.png", UriKind.Relative));
             }
             else
             {
                 _isKeepOpenChecked = true;
                 _freezeWindow = true;
-                PinImage.Source = new BitmapImage(new Uri("/assets/unpin24x24.png", UriKind.Relative));
+                PinImage.Source = new BitmapImage(new Uri("/assets/pinned.png", UriKind.Relative));
             }
+        }
+
+        private void YesButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            DeleteItem();
+            NotFoundMessageGrid.Visibility = Visibility.Collapsed;
+        }
+
+        private void NoButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            NotFoundMessageGrid.Visibility = Visibility.Collapsed;
         }
     }
 }
