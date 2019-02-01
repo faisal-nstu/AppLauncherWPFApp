@@ -128,21 +128,30 @@
                             x:Name="AddButton"
                             Click="AddButtonClick"
                             FontSize="26"
-                            Foreground="Gray"
+                            Foreground="#333333"
                             ToolTip="Add Application" >
                         <Button.Content>
-                            <TextBlock Text="+" Margin="0,-4,0,0"></TextBlock>
+                            <TextBlock Text="+" ></TextBlock>
                         </Button.Content>
                     </Button>
-                    <Button BorderBrush="Gray"
-                            BorderThickness="0,0,0,2"
+                    <Button BorderThickness="0"
                             Margin="5,0,0,0"
-                            Content="BROWSE"
-                            Height="20"
+                            Height="25"
                             Background="Transparent"
                             Foreground="Gray"
-                            x:Name="BrowseButton"
-                            Click="BrowseButton_OnClick"/>
+                            x:Name="BrowseFileButton"
+                            Click="BrowseFileButton_OnClick">
+                        <Image Source="/assets/add_file.png"/>
+                    </Button>
+                    <Button BorderThickness="0"
+                            Margin="5,0,0,0"
+                            Height="25"
+                            Background="Transparent"
+                            Foreground="Gray"
+                            x:Name="BrowseFolderButton"
+                            Click="BrowseFolderButton_OnClick">
+                        <Image Source="/assets/add_folder.png"/>
+                    </Button>
                 </StackPanel>
             </Border>
             

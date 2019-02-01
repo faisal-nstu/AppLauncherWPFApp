@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using System.Windows.Forms;
+using Forms = System.Windows.Forms;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -31,7 +31,8 @@ namespace AppLauncherWPFApp
             InitializeComponent();
             RenamerControl.Visibility = Visibility.Collapsed;
             DropBgGrid.Visibility = Visibility.Collapsed;
-            BrowseButton.Visibility = Visibility.Collapsed;
+            BrowseFileButton.Visibility = Visibility.Collapsed;
+            BrowseFolderButton.Visibility = Visibility.Collapsed;
             RenamerControl.OkButton.Click += OkButtonOnClick;
             RenamerControl.CancelButton.Click += CancelButtonOnClick;
             SetWindow();
@@ -44,8 +45,8 @@ namespace AppLauncherWPFApp
             _isDropZoneOpen = false;
             this.Deactivated += OnWindowDeactivated;
             // get mouse position
-            double workingAreaHeight = Screen.PrimaryScreen.WorkingArea.Height;
-            double workingAreaWidth = Screen.PrimaryScreen.WorkingArea.Width;
+            double workingAreaHeight = Forms.Screen.PrimaryScreen.WorkingArea.Height;
+            double workingAreaWidth = Forms.Screen.PrimaryScreen.WorkingArea.Width;
             var xPos = GetMousePositionWindowsForms().X;
             // set window size
             var noOfApps = GetAppList().Count;
@@ -83,7 +84,7 @@ namespace AppLauncherWPFApp
 
         public Point GetMousePositionWindowsForms()
         {
-            System.Drawing.Point point = System.Windows.Forms.Control.MousePosition;
+            System.Drawing.Point point = Forms.Control.MousePosition;
             return new Point(point.X, point.Y);
         }
 
@@ -91,14 +92,10 @@ namespace AppLauncherWPFApp
         {
             if (_freezeWindow == false)
             {
-                Timer timer = new Timer();
+                Forms.Timer timer = new Forms.Timer();
                 timer.Interval = 500;
                 timer.Tick += TimerOnTick;
                 timer.Start();
-            }
-            else
-            {
-                return;
             }
         }
 
@@ -174,22 +171,16 @@ namespace AppLauncherWPFApp
                 _freezeWindow = true;
                 AddButton.Content = "×"; //⨉
                 DropBgGrid.Visibility = Visibility.Visible;
-                BrowseButton.Visibility = Visibility.Visible;
+                BrowseFileButton.Visibility = Visibility.Visible;
+                BrowseFolderButton.Visibility = Visibility.Visible;
             }
             else
             {
-                _isDropZoneOpen = false;
-                if (!_isKeepOpenChecked)
-                {
-                    _freezeWindow = false;
-                }
-                AddButton.Content = "+";
-                DropBgGrid.Visibility = Visibility.Collapsed;
-                BrowseButton.Visibility = Visibility.Collapsed;
+                HideFileFolderSelection();
             }
         }
 
-        private void AddApp(string selectedApp)
+        private void AddAppOrFolder(string selectedApp)
         {
             AppDetails newApp = new AppDetails();
             newApp.AppLocation = selectedApp;
@@ -345,20 +336,14 @@ namespace AppLauncherWPFApp
                 string[] files = (string[])e.Data.GetData(System.Windows.DataFormats.FileDrop);
                 foreach (var file in files)
                 {
-                    AddApp(file);
+                    AddAppOrFolder(file);
                 }
             }
-            _isDropZoneOpen = false;
-            AddButton.Content = "+";
-            DropBgGrid.Visibility = Visibility.Collapsed;
-            BrowseButton.Visibility = Visibility.Collapsed;
-            if (!_isKeepOpenChecked)
-            {
-                _freezeWindow = false;
-            }
+
+            HideFileFolderSelection();
         }
 
-        private void BrowseButton_OnClick(object sender, RoutedEventArgs e)
+        private void BrowseFileButton_OnClick(object sender, RoutedEventArgs e)
         {
             OpenFileDialog fileBrowser = new OpenFileDialog();
             fileBrowser.ShowDialog();
@@ -366,17 +351,42 @@ namespace AppLauncherWPFApp
             var selectedApp = fileBrowser.FileName;
             if (!string.IsNullOrEmpty(selectedApp))
             {
-                AddApp(selectedApp);
+                AddAppOrFolder(selectedApp);
             }
+
+            HideFileFolderSelection();
+        }
+
+        private void BrowseFolderButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            using (var fbd = new Forms.FolderBrowserDialog())
+            {
+                Forms.DialogResult result = fbd.ShowDialog();
+
+                if (result == Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                {
+                    string[] files = Directory.GetFiles(fbd.SelectedPath);
+
+                    AddAppOrFolder(fbd.SelectedPath);
+                }
+            }
+
+            HideFileFolderSelection();
+        }
+
+        private void HideFileFolderSelection()
+        {
             _isDropZoneOpen = false;
             AddButton.Content = "+";
             DropBgGrid.Visibility = Visibility.Collapsed;
-            BrowseButton.Visibility = Visibility.Collapsed;
+            BrowseFileButton.Visibility = Visibility.Collapsed;
+            BrowseFolderButton.Visibility = Visibility.Collapsed;
             if (!_isKeepOpenChecked)
             {
-                _freezeWindow = false;   
+                _freezeWindow = false;
             }
         }
+
         private void KeepOpenRadioButton_OnClick(object sender, RoutedEventArgs e)
         {
             if (_isKeepOpenChecked)
