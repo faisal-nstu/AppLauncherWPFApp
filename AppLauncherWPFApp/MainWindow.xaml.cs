@@ -345,13 +345,14 @@ namespace AppLauncherWPFApp
 
         private void BrowseFileButton_OnClick(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog fileBrowser = new OpenFileDialog();
-            fileBrowser.ShowDialog();
-
-            var selectedApp = fileBrowser.FileName;
-            if (!string.IsNullOrEmpty(selectedApp))
+            using (var openFileDialog = new Forms.OpenFileDialog())
             {
-                AddAppOrFolder(selectedApp);
+                Forms.DialogResult result = openFileDialog.ShowDialog();
+
+                if (result == Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(openFileDialog.FileName))
+                {
+                    AddAppOrFolder(openFileDialog.FileName);
+                }
             }
 
             HideFileFolderSelection();
@@ -365,8 +366,6 @@ namespace AppLauncherWPFApp
 
                 if (result == Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                 {
-                    string[] files = Directory.GetFiles(fbd.SelectedPath);
-
                     AddAppOrFolder(fbd.SelectedPath);
                 }
             }
