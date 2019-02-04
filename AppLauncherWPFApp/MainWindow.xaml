@@ -113,8 +113,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Border Grid.Row="0"
-                BorderThickness="1,1,1,0"
-                BorderBrush="DarkGray">
+                BorderThickness="0">
                 <StackPanel Orientation="Horizontal" 
                             Background="White">
                     <TextBlock Text="LaunchR"
@@ -154,7 +153,7 @@
                     </Button>
                 </StackPanel>
             </Border>
-            
+
             <Image x:Name="PinImage"
                    Source="/assets/unpinned.png"
                    Margin="10"
@@ -163,11 +162,13 @@
                    VerticalAlignment="Top"
                    MouseUp="KeepOpenRadioButton_OnClick"></Image>
             <Grid Grid.Row="1"
-              Background="#00000000">
+                  Background="#00000000">
 
                 <ListView x:Name="AppListView"
-                      PreviewMouseLeftButtonUp="AppListView_OnPreviewMouseLeftButtonUp"
-                      Background="#FFE8E8E8">
+                          PreviewMouseLeftButtonUp="AppListView_OnPreviewMouseLeftButtonUp"
+                          Background="#FFE8E8E8"
+                          BorderBrush="#c9c9c9"
+                          BorderThickness="0,1,0,0">
                     <ListView.View>
                         <controls:ImageView/>
                     </ListView.View>
