@@ -168,7 +168,12 @@
                           PreviewMouseLeftButtonUp="AppListView_OnPreviewMouseLeftButtonUp"
                           Background="#FFE8E8E8"
                           BorderBrush="#c9c9c9"
-                          BorderThickness="0,1,0,0">
+                          BorderThickness="0,1,0,0"
+                          AllowDrop="True"
+                          PreviewMouseLeftButtonDown="AppListView_OnPreviewMouseLeftButtonDown"
+                          MouseMove="AppListView_MouseMove"
+                          DragEnter="AppListView_DragEnter"
+                          Drop="AppListView_Drop">
                     <ListView.View>
                         <controls:ImageView/>
                     </ListView.View>
