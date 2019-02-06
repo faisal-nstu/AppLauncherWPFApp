@@ -10,6 +10,8 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using DragEventArgs = System.Windows.DragEventArgs;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
+using System.Windows.Media;
+using System.Linq;
 
 namespace AppLauncherWPFApp
 {
@@ -413,5 +415,104 @@ namespace AppLauncherWPFApp
         {
             NotFoundMessageGrid.Visibility = Visibility.Collapsed;
         }
+
+
+        #region RE-ORDER
+
+        private Point startPoint = new Point();
+        private int startIndex = -1;
+
+        private void AppListView_OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            // Get current mouse position
+            startPoint = e.GetPosition(null);
+        }
+
+        // Helper to search up the VisualTree
+        private static T FindAnchestor<T>(DependencyObject current)
+            where T : DependencyObject
+        {
+            do
+            {
+                if (current is T)
+                {
+                    return (T)current;
+                }
+                current = VisualTreeHelper.GetParent(current);
+            }
+            while (current != null);
+            return null;
+        }
+
+        private void AppListView_MouseMove(object sender, MouseEventArgs e)
+        {
+            // Get the current mouse position
+            Point mousePos = e.GetPosition(null);
+            Vector diff = startPoint - mousePos;
+
+            if (e.LeftButton == MouseButtonState.Pressed &&
+                (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance ||
+                       Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance))
+            {
+                // Get the dragged ListViewItem
+                ListView listView = sender as ListView;
+                ListViewItem listViewItem = FindAnchestor<ListViewItem>((DependencyObject)e.OriginalSource);
+                if (listViewItem == null) return;           // Abort
+                                                            // Find the data behind the ListViewItem
+                AppItem item = (AppItem)listView.ItemContainerGenerator.ItemFromContainer(listViewItem);
+                if (item == null) return;                   // Abort
+                                                            // Initialize the drag & drop operation
+                startIndex = listView.SelectedIndex;
+                DataObject dragData = new DataObject("WorkItem", item);
+                DragDrop.DoDragDrop(listViewItem, dragData, DragDropEffects.Copy | DragDropEffects.Move);
+            }
+        }
+
+        private void AppListView_DragEnter(object sender, DragEventArgs e)
+        {
+            if (!e.Data.GetDataPresent("WorkItem") || sender != e.Source)
+            {
+                e.Effects = DragDropEffects.None;
+            }
+        }
+
+        private void AppListView_Drop(object sender, DragEventArgs e)
+        {
+            int index = -1;
+
+            if (e.Data.GetDataPresent("WorkItem") && sender == e.Source)
+            {
+                // Get the drop ListViewItem destination
+                ListView listView = sender as ListView;
+                ListViewItem listViewItem = FindAnchestor<ListViewItem>((DependencyObject)e.OriginalSource);
+                if (listViewItem == null)
+                {
+                    // Abort
+                    e.Effects = DragDropEffects.None;
+                    return;
+                }
+                // Find the data behind the ListViewItem
+                AppItem item = (AppItem)listView.ItemContainerGenerator.ItemFromContainer(listViewItem);
+                // Move item into observable collection 
+                // (this will be automatically reflected to lstView.ItemsSource)
+                e.Effects = DragDropEffects.Move;
+                index = AppItems.IndexOf(item);
+                if (startIndex >= 0 && index >= 0)
+                {
+                    AppItems.Move(startIndex, index);
+                }
+                startIndex = -1;        // Done!
+
+                SaveNewOrder();
+            }
+        }
+
+        private void SaveNewOrder()
+        {
+            var newOrder = AppItems.Select(item => new AppDetails { AppName = item.AppName, AppLocation = item.AppLocation });
+            WriteToFile(newOrder.ToList());
+        }
+
+        #endregion
     }
 }
