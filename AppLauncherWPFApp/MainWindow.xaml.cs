@@ -26,6 +26,8 @@ namespace AppLauncherWPFApp
         private bool _isKeepOpenChecked;
         private AppDetails _appToBeRenamed;
         private AppItem _selectedApp;
+        private int minWidth = 350;
+        private int minHeight = 400;
 
         public ObservableCollection<AppItem> AppItems { get; set; }
         public MainWindow()
@@ -56,8 +58,8 @@ namespace AppLauncherWPFApp
             var noOfAppsPerColumn = (noOfAppsPerRow * noOfAppsPerRow) - noOfApps < noOfAppsPerRow ? noOfAppsPerRow : (noOfAppsPerRow - 1);
             this.Width = 0;
             this.Height = 0;
-            var finalWidth = (76 * noOfAppsPerRow) < 200 ? 200 : (76 * noOfAppsPerRow);
-            var finalHeight = (100 * noOfAppsPerColumn + 40) < 200 ? 200 : (100 * noOfAppsPerColumn + 40);
+            var finalWidth = (76 * noOfAppsPerRow) < minWidth ? minWidth : (76 * noOfAppsPerRow);
+            var finalHeight = (100 * noOfAppsPerColumn + 40) < minWidth ? minWidth : (100 * noOfAppsPerColumn + 40);
             finalHeight += 0;
             finalWidth += 10;
             // set window position
@@ -73,14 +75,14 @@ namespace AppLauncherWPFApp
             {
                 this.Left = xPos - (finalWidth / 2);
             }
-            finalHeight = finalHeight < 400 ? 400 : finalHeight;
+            finalHeight = finalHeight < minHeight ? minHeight : finalHeight;
             this.Top = workingAreaHeight - finalHeight;
             AnimateWindow(finalWidth,finalHeight);
         }
 
         private void AnimateWindow(double finalWidth, double finalHeight)
         {
-            this.Width = finalWidth < 350 ? 350 : finalWidth;
+            this.Width = finalWidth < minWidth ? minWidth : finalWidth;
             this.Height = finalHeight;
         }
 
