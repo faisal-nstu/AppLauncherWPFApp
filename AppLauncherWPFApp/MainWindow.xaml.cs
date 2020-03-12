@@ -25,7 +25,6 @@ namespace AppLauncherWPFApp
         private bool _isDropZoneOpen;
         private bool _isKeepOpenChecked;
         private AppDetails _appToBeRenamed;
-        private AppItem _selectedApp;
 
         public ObservableCollection<AppItem> AppItems { get; set; }
         public MainWindow()
@@ -94,8 +93,10 @@ namespace AppLauncherWPFApp
         {
             if (_freezeWindow == false)
             {
-                Forms.Timer timer = new Forms.Timer();
-                timer.Interval = 500;
+                Forms.Timer timer = new Forms.Timer
+                {
+                    Interval = 500
+                };
                 timer.Tick += TimerOnTick;
                 timer.Start();
             }
@@ -122,9 +123,11 @@ namespace AppLauncherWPFApp
             var appList = GetAppList();
             foreach (var app in appList)
             {
-                var appItem = new AppItem();
-                appItem.AppName = app.AppName.Length>18 ? app.AppName.Substring(0,15)+"...": app.AppName;
-                appItem.AppLocation = app.AppLocation;
+                var appItem = new AppItem
+                {
+                    AppName = app.AppName.Length > 18 ? app.AppName.Substring(0, 15) + "..." : app.AppName,
+                    AppLocation = app.AppLocation
+                };
                 AppItems.Add(appItem);
             }
         }
@@ -138,8 +141,7 @@ namespace AppLauncherWPFApp
 
             if (clickSource is Grid || clickSource is Border || clickSource is TextBlock || clickSource is Image)
             {
-                var frameworkElement = e.OriginalSource as FrameworkElement;
-                if (frameworkElement != null && frameworkElement.DataContext is AppItem)
+                if (e.OriginalSource is FrameworkElement frameworkElement && frameworkElement.DataContext is AppItem)
                 {
                     clickedApp = (e.OriginalSource as FrameworkElement).DataContext as AppItem;
                 }
@@ -161,7 +163,7 @@ namespace AppLauncherWPFApp
 
         private void ShowMessage(AppItem clickedApp)
         {
-            _selectedApp = clickedApp;
+            NotAvailableMessage.Text = $"\"{clickedApp.AppName}\" no longer exists in this location. Do you want to delete the shortcut?";
             NotFoundMessageGrid.Visibility = Visibility.Visible;
         }
 
@@ -184,9 +186,11 @@ namespace AppLauncherWPFApp
 
         private void AddAppOrFolder(string selectedApp)
         {
-            AppDetails newApp = new AppDetails();
-            newApp.AppLocation = selectedApp;
-            newApp.AppName = System.IO.Path.GetFileNameWithoutExtension(selectedApp);
+            AppDetails newApp = new AppDetails
+            {
+                AppLocation = selectedApp,
+                AppName = System.IO.Path.GetFileNameWithoutExtension(selectedApp)
+            };
 
             List<AppDetails> AppList = GetAppList();
             var isAppExists = AppList.Exists(m => m.AppLocation == newApp.AppLocation);
@@ -231,9 +235,8 @@ namespace AppLauncherWPFApp
 
             }
 
-            System.IO.StreamReader file2 = new System.IO.StreamReader(appDataPath + "\\AppLauncher.xml");
-            List<AppDetails> appList = new List<AppDetails>();
-            appList = (List<AppDetails>)reader.Deserialize(file2);
+            StreamReader file2 = new StreamReader(appDataPath + "\\AppLauncher.xml");
+            List<AppDetails> appList = (List<AppDetails>)reader.Deserialize(file2);
             file2.Close();
             return appList;
         }
@@ -265,8 +268,7 @@ namespace AppLauncherWPFApp
         private void DeleteItem()
         {
             var clickedApp = new AppDetails();
-            var appItem = AppListView.SelectedItem as AppItem;
-            if (appItem != null)
+            if (AppListView.SelectedItem is AppItem appItem)
             {
                 clickedApp.AppName = appItem.AppName;
                 clickedApp.AppLocation = appItem.AppLocation;
@@ -478,8 +480,6 @@ namespace AppLauncherWPFApp
 
         private void AppListView_Drop(object sender, DragEventArgs e)
         {
-            int index = -1;
-
             if (e.Data.GetDataPresent("WorkItem") && sender == e.Source)
             {
                 // Get the drop ListViewItem destination
@@ -496,7 +496,7 @@ namespace AppLauncherWPFApp
                 // Move item into observable collection 
                 // (this will be automatically reflected to lstView.ItemsSource)
                 e.Effects = DragDropEffects.Move;
-                index = AppItems.IndexOf(item);
+                int index = AppItems.IndexOf(item);
                 if (startIndex >= 0 && index >= 0)
                 {
                     AppItems.Move(startIndex, index);
